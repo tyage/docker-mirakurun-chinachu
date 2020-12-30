@@ -31,3 +31,6 @@ services:
      - ./recorded:/usr/local/chinachu/recorded
     links:
      - mirakurun:container-mirakurun
+    devices:
+     - /dev/dri/card0:/dev/dri/card0
+     - /dev/dri/renderD128:/dev/dri/renderD128

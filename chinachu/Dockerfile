@@ -10,6 +10,13 @@ ARG WORK_DIR="/usr/local/chinachu"
 #node container default value
 ARG USER_NAME="node"
 
+# install va drivers
+RUN set -x \
+    apk upgrade --update \
+    && apk add libva --update-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/main/ \
+    && apk add libva-intel-driver libva-utils --update-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ \
+    && apk add ffmpeg
+
 RUN set -x \
 	&& apk upgrade --update \
 	&& apk add \
@@ -44,7 +51,8 @@ RUN set -x \
 	&& git checkout ${BRANCH} \
 	&& echo 2 | sudo -u ${USER_NAME} ./chinachu installer \
 	&& echo 4 | sudo -u ${USER_NAME} ./chinachu installer \
-	&& echo 5 | sudo -u ${USER_NAME} ./chinachu installer \
+	# do not install ffmpeg via chinachu
+	# && echo 5 | sudo -u ${USER_NAME} ./chinachu installer \
 	&& sudo -u ${USER_NAME} ./chinachu service operator initscript | tee /tmp/chinachu-operator \
 	&& sudo -u ${USER_NAME} ./chinachu service wui initscript | tee /tmp/chinachu-wui \
 	&& sudo -u ${USER_NAME} mkdir log \

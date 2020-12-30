@@ -1,4 +1,10 @@
 #!/bin/bash
+
+# give access of the video device to all users
+if [ -e /dev/dri ]; then
+	chmod 0666 /dev/dri/*
+fi
+
 if [ ! -s config.json ]; then
 	cat config.sample.json > config.json
 fi
